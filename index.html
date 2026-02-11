@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusMark - Customized Promotional Products & Corporate Gifts</title>
+    <title>NexusMark - Premium Glass Experience</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -16,106 +18,358 @@
                         display: ['Space Grotesk', 'sans-serif'],
                     },
                     colors: {
-                        brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            900: '#0c4a6e',
+                        glass: {
+                            100: 'rgba(255, 255, 255, 0.1)',
+                            200: 'rgba(255, 255, 255, 0.2)',
+                            300: 'rgba(255, 255, 255, 0.3)',
+                            400: 'rgba(255, 255, 255, 0.4)',
+                            500: 'rgba(255, 255, 255, 0.5)',
+                            600: 'rgba(255, 255, 255, 0.6)',
+                            800: 'rgba(255, 255, 255, 0.8)',
+                            900: 'rgba(255, 255, 255, 0.95)',
                         },
-                        accent: {
-                            500: '#f59e0b',
-                            600: '#d97706',
+                        neon: {
+                            blue: '#00f3ff',
+                            purple: '#bc13fe',
+                            pink: '#ff006e',
+                            green: '#0aff68',
+                            amber: '#ffbe0b',
                         }
                     },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-                        'slide-in-right': 'slideInRight 0.6s ease-out forwards',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(30px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        slideInRight: {
-                            '0%': { opacity: '0', transform: 'translateX(50px)' },
-                            '100%': { opacity: '1', transform: 'translateX(0)' },
-                        }
+                    backdropBlur: {
+                        xs: '2px',
                     }
                 }
             }
         }
     </script>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Heavy Glass Morphism */
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37),
+                        inset 0 0 0 1px rgba(255,255,255,0.1);
+        }
+
+        .glass-card {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5),
+                        inset 0 0 20px rgba(255,255,255,0.02);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6),
+                        inset 0 0 30px rgba(255,255,255,0.05),
+                        0 0 20px rgba(0,243,255,0.1);
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .glass-button {
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3),
+                        inset 0 1px 0 rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .glass-button:hover::before {
+            left: 100%;
+        }
+
+        .glass-button:hover {
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+            border-color: rgba(255,255,255,0.4);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.4),
+                        0 0 20px rgba(0,243,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Neon Glow Effects */
+        .neon-glow {
+            box-shadow: 0 0 5px rgba(0,243,255,0.5),
+                        0 0 10px rgba(0,243,255,0.3),
+                        0 0 20px rgba(0,243,255,0.2),
+                        0 0 40px rgba(0,243,255,0.1);
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px rgba(0,243,255,0.5),
+                         0 0 20px rgba(0,243,255,0.3),
+                         0 0 40px rgba(0,243,255,0.2);
+        }
+
+        .neon-border {
+            position: relative;
+        }
+
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, #00f3ff, #bc13fe, #ff006e, #00f3ff);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(8px);
+        }
+
+        .neon-border:hover::after {
+            opacity: 0.7;
+        }
+
+        /* Animated Background */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(188, 19, 254, 0.15) 0%, transparent 50%),
+                linear-gradient(to bottom, #0a0a0a, #1a1a2e);
+            animation: meshMove 20s ease infinite;
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0,243,255,0.4) 0%, transparent 70%);
+            top: -10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(188,19,254,0.4) 0%, transparent 70%);
+            bottom: -5%;
+            right: -5%;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255,0,110,0.3) 0%, transparent 70%);
+            top: 40%;
+            right: 20%;
+            animation-delay: -2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.1); }
+            50% { transform: translate(0, -100px) scale(1); }
+            75% { transform: translate(-50px, -50px) scale(0.9); }
+        }
+
+        /* Glass Shimmer Effect */
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(255,255,255,0.1) 50%,
+                transparent 100%
+            );
+            transform: rotate(30deg);
+            animation: shimmer 6s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+
+        /* 3D Tilt Effect */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+
+        .tilt-content {
+            transform: translateZ(20px);
+        }
+
+        /* Gradient Text */
         .gradient-text {
-            background: linear-gradient(135deg, #0ea5e9 0%, #f59e0b 100%);
+            background: linear-gradient(135deg, #00f3ff 0%, #bc13fe 50%, #ff006e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
         }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        /* Pulse Animation */
+        .pulse-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(0,243,255,0.5);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
-        .hover-lift:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
         }
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
         }
-        .scroll-reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
         }
-        .whatsapp-pulse {
-            animation: pulse-green 2s infinite;
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            border: 2px solid #0a0a0a;
         }
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* WhatsApp Specific */
+        .whatsapp-glass {
+            background: linear-gradient(135deg, rgba(37,211,102,0.2) 0%, rgba(37,211,102,0.05) 100%);
+            border: 1px solid rgba(37,211,102,0.3);
+            box-shadow: 0 4px 30px rgba(37,211,102,0.2);
+        }
+
+        .whatsapp-glass:hover {
+            background: linear-gradient(135deg, rgba(37,211,102,0.3) 0%, rgba(37,211,102,0.1) 100%);
+            box-shadow: 0 6px 40px rgba(37,211,102,0.3),
+                        0 0 20px rgba(37,211,102,0.2);
+        }
+
+        /* Phone Glass */
+        .phone-glass {
+            background: linear-gradient(135deg, rgba(0,243,255,0.2) 0%, rgba(0,243,255,0.05) 100%);
+            border: 1px solid rgba(0,243,255,0.3);
+        }
+
+        .phone-glass:hover {
+            background: linear-gradient(135deg, rgba(0,243,255,0.3) 0%, rgba(0,243,255,0.1) 100%);
+            box-shadow: 0 0 30px rgba(0,243,255,0.2);
         }
     </style>
 </head>
-<body class="font-sans text-gray-800 bg-gray-50 overflow-x-hidden">
+<body class="font-sans antialiased">
+
+    <!-- Animated Background -->
+    <div class="bg-mesh"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-effect transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-accent-500 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+    <nav class="fixed w-full z-50 top-0 transition-all duration-500" id="navbar">
+        <div class="glass-panel mx-4 mt-4 rounded-2xl px-6 py-4">
+            <div class="flex justify-between items-center max-w-7xl mx-auto">
+                <div class="flex items-center space-x-3 group cursor-pointer">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300 neon-glow">
                         N
                     </div>
-                    <span class="font-display font-bold text-2xl text-gray-900">Nexus<span class="text-brand-600">Mark</span></span>
+                    <span class="font-display font-bold text-2xl tracking-tight">
+                        Nexus<span class="gradient-text">Mark</span>
+                    </span>
                 </div>
                 
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#products" class="text-gray-700 hover:text-brand-600 font-medium transition-colors">Products</a>
-                    <a href="#features" class="text-gray-700 hover:text-brand-600 font-medium transition-colors">Features</a>
-                    <a href="#contact" class="text-gray-700 hover:text-brand-600 font-medium transition-colors">Contact</a>
+                    <a href="#products" class="text-gray-300 hover:text-white font-medium transition-colors relative group">
+                        Products
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-blue transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#features" class="text-gray-300 hover:text-white font-medium transition-colors relative group">
+                        Features
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-blue transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="text-gray-300 hover:text-white font-medium transition-colors relative group">
+                        Contact
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-blue transition-all group-hover:w-full"></span>
+                    </a>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <a href="tel:7981335587" class="hidden sm:flex items-center space-x-2 text-gray-700 hover:text-brand-600 transition-colors">
-                        <i data-lucide="phone" class="w-4 h-4"></i>
-                        <span class="font-semibold">7981335587</span>
+                    <a href="tel:7981335587" class="hidden lg:flex items-center space-x-2 glass-button px-4 py-2 rounded-full text-sm font-medium">
+                        <i data-lucide="phone" class="w-4 h-4 text-neon-blue"></i>
+                        <span>7981335587</span>
                     </a>
-                    <a href="https://wa.me/917981335587?text=Hi%20NexusMark!%20I'm%20interested%20in%20your%20customized%20products." 
-                       target="_blank" 
-                       class="bg-green-500 hover:bg-green-600 text-white px-6 py-2.5 rounded-full font-medium transition-all hover:scale-105 flex items-center space-x-2 shadow-lg whatsapp-pulse">
+                    <a href="https://wa.me/917981335587?text=Hi%20NexusMark!" target="_blank" 
+                       class="whatsapp-glass px-6 py-2.5 rounded-full font-medium transition-all hover:scale-105 flex items-center space-x-2 text-green-400">
                         <i data-lucide="message-circle" class="w-5 h-5"></i>
                         <span>WhatsApp</span>
                     </a>
@@ -125,230 +379,379 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-brand-50 via-white to-accent-50 opacity-70"></div>
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-brand-100/30 to-transparent"></div>
+    <section class="relative min-h-screen flex items-center justify-center pt-32 pb-20 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.03%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
         
-        <!-- Floating Elements -->
-        <div class="absolute top-40 left-10 w-20 h-20 bg-brand-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float"></div>
-        <div class="absolute bottom-20 right-10 w-32 h-32 bg-accent-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 2s;"></div>
-
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-8 animate-fade-in-up">
-                    <div class="inline-flex items-center space-x-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full border border-brand-200 shadow-sm">
-                        <span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-                        <span class="text-sm font-medium text-gray-700">Premium Quality Guaranteed</span>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Content -->
+                <div class="space-y-8 hero-content">
+                    <div class="inline-flex items-center space-x-2 glass-panel px-4 py-2 rounded-full border border-neon-blue/30 shimmer">
+                        <span class="flex h-2 w-2 rounded-full bg-neon-green animate-pulse"></span>
+                        <span class="text-sm font-medium text-gray-300 tracking-wide">Premium Quality Products</span>
                     </div>
                     
-                    <h1 class="font-display text-5xl lg:text-7xl font-bold leading-tight text-gray-900">
-                        Customized <br>
-                        <span class="gradient-text">Promotional</span><br>
-                        Products
+                    <h1 class="font-display text-6xl lg:text-8xl font-bold leading-none tracking-tight">
+                        <span class="block text-white mb-2">Customized</span>
+                        <span class="gradient-text neon-text">Promotional</span>
+                        <span class="block text-white mt-2">Products</span>
                     </h1>
                     
-                    <p class="text-xl text-gray-600 max-w-lg leading-relaxed">
+                    <p class="text-xl text-gray-400 max-w-lg leading-relaxed glass-panel p-6 rounded-2xl border-l-4 border-neon-blue">
                         Elevate your brand with premium customized merchandise. From magic mugs to corporate lanyards, we deliver quality that speaks volumes.
                     </p>
                     
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="https://wa.me/917981335587?text=Hi%20NexusMark!%20I%20want%20to%20place%20an%20order%20for%20customized%20products." 
+                        <a href="https://wa.me/917981335587?text=Hi%20NexusMark!%20I%20want%20to%20place%20an%20order." 
                            target="_blank"
-                           class="inline-flex items-center justify-center space-x-3 bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105 shadow-xl hover:shadow-2xl group">
+                           class="whatsapp-glass px-8 py-4 rounded-2xl font-semibold text-lg transition-all hover:scale-105 flex items-center justify-center space-x-3 group">
                             <i data-lucide="message-circle" class="w-6 h-6 group-hover:rotate-12 transition-transform"></i>
                             <span>Order on WhatsApp</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all"></i>
                         </a>
-                        <a href="tel:7981335587" class="inline-flex items-center justify-center space-x-3 bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-200 px-8 py-4 rounded-full font-semibold text-lg transition-all hover:border-brand-300">
-                            <i data-lucide="phone" class="w-6 h-6 text-brand-600"></i>
-                            <span>Call Now</span>
+                        <a href="tel:7981335587" class="phone-glass px-8 py-4 rounded-2xl font-semibold text-lg transition-all hover:scale-105 flex items-center justify-center space-x-3 text-neon-blue">
+                            <i data-lucide="phone" class="w-6 h-6"></i>
+                            <span>7981335587</span>
                         </a>
                     </div>
 
                     <div class="flex items-center space-x-6 pt-4">
-                        <div class="flex -space-x-2">
-                            <div class="w-10 h-10 rounded-full bg-brand-200 border-2 border-white flex items-center justify-center text-xs font-bold text-brand-800">5★</div>
-                            <div class="w-10 h-10 rounded-full bg-accent-200 border-2 border-white flex items-center justify-center text-xs font-bold text-accent-800">4.9</div>
+                        <div class="flex -space-x-3">
+                            <div class="w-12 h-12 rounded-full glass-panel border-2 border-neon-blue/30 flex items-center justify-center text-xs font-bold text-neon-blue">5★</div>
+                            <div class="w-12 h-12 rounded-full glass-panel border-2 border-neon-purple/30 flex items-center justify-center text-xs font-bold text-neon-purple">4.9</div>
+                            <div class="w-12 h-12 rounded-full glass-panel border-2 border-neon-pink/30 flex items-center justify-center text-xs font-bold text-neon-pink">A+</div>
                         </div>
-                        <div class="text-sm text-gray-600">
-                            <span class="font-semibold text-gray-900">500+ Happy Clients</span> across India
+                        <div class="text-sm text-gray-400">
+                            <span class="font-semibold text-white block">500+ Happy Clients</span>
+                            <span>Across India</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="relative lg:h-[600px] flex items-center justify-center">
-                    <div class="relative w-full max-w-md animate-slide-in-right">
-                        <div class="absolute inset-0 bg-gradient-to-r from-brand-500 to-accent-500 rounded-3xl transform rotate-3 opacity-20 blur-2xl"></div>
-                        <div class="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-                            <div class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden group">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="text-center p-8">
-                                        <div class="w-32 h-32 mx-auto bg-gradient-to-br from-brand-500 to-accent-500 rounded-2xl shadow-lg flex items-center justify-center mb-4 transform group-hover:scale-110 transition-transform duration-500">
-                                            <i data-lucide="package" class="w-16 h-16 text-white"></i>
+                <!-- Right Content - 3D Glass Card -->
+                <div class="relative lg:h-[600px] flex items-center justify-center hero-image">
+                    <div class="relative w-full max-w-md tilt-card" id="heroCard">
+                        <!-- Background Glow -->
+                        <div class="absolute -inset-4 bg-gradient-to-r from-neon-blue to-neon-purple rounded-3xl opacity-20 blur-2xl animate-pulse"></div>
+                        
+                        <!-- Main Glass Card -->
+                        <div class="glass-panel rounded-3xl p-1 relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            
+                            <div class="bg-black/40 rounded-[20px] overflow-hidden relative">
+                                <!-- Product Image Area -->
+                                <div class="aspect-square relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black"></div>
+                                    
+                                    <!-- Animated Grid -->
+                                    <div class="absolute inset-0 bg-[linear-gradient(rgba(0,243,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,243,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]"></div>
+                                    
+                                    <!-- Center Icon -->
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="w-32 h-32 rounded-2xl glass-panel flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 neon-border">
+                                            <i data-lucide="package" class="w-16 h-16 text-neon-blue drop-shadow-[0_0_15px_rgba(0,243,255,0.5)]"></i>
                                         </div>
-                                        <p class="text-gray-500 font-medium">Premium Custom Products</p>
+                                    </div>
+
+                                    <!-- Floating Elements -->
+                                    <div class="absolute top-6 right-6 glass-panel px-4 py-2 rounded-full text-xs font-bold text-neon-blue border border-neon-blue/30 animate-bounce">
+                                        NEW
+                                    </div>
+                                    
+                                    <div class="absolute bottom-6 left-6 glass-panel p-3 rounded-xl border border-white/10">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-2 h-2 bg-neon-green rounded-full animate-pulse"></div>
+                                            <span class="text-xs text-gray-300">In Stock</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Decorative circles -->
-                                <div class="absolute top-4 right-4 w-20 h-20 bg-brand-200 rounded-full mix-blend-multiply opacity-50"></div>
-                                <div class="absolute bottom-4 left-4 w-16 h-16 bg-accent-200 rounded-full mix-blend-multiply opacity-50"></div>
+
+                                <!-- Card Content -->
+                                <div class="p-6 space-y-4 border-t border-white/10">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="font-display font-bold text-2xl text-white">Magic Mug Pro</h3>
+                                            <p class="text-gray-400 text-sm">Heat-sensitive • Premium Ceramic</p>
+                                        </div>
+                                        <div class="glass-panel p-2 rounded-lg">
+                                            <i data-lucide="sparkles" class="w-6 h-6 text-neon-amber"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between pt-2">
+                                        <div class="flex items-center space-x-1">
+                                            <i data-lucide="star" class="w-5 h-5 text-neon-amber fill-current"></i>
+                                            <span class="text-lg font-bold text-white">4.9</span>
+                                            <span class="text-gray-500 text-sm">(128 reviews)</span>
+                                        </div>
+                                        <button class="glass-button px-4 py-2 rounded-lg text-sm font-semibold text-neon-blue hover:text-white">
+                                            Customize →
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="p-6 space-y-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="font-display font-bold text-xl text-gray-900">Custom Magic Mug</h3>
-                                        <p class="text-gray-500 text-sm">Color changing • Premium ceramic</p>
-                                    </div>
-                                    <span class="bg-brand-100 text-brand-800 text-xs font-bold px-3 py-1 rounded-full">Bestseller</span>
-                                </div>
-                                <div class="flex items-center justify-between pt-2">
-                                    <div class="flex items-center space-x-1">
-                                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-current"></i>
-                                        <span class="text-sm font-semibold text-gray-700">4.9</span>
-                                    </div>
-                                    <button class="text-brand-600 font-semibold text-sm hover:underline">Customize Now →</button>
-                                </div>
-                            </div>
+                        </div>
+
+                        <!-- Decorative Elements -->
+                        <div class="absolute -top-6 -right-6 w-24 h-24 glass-panel rounded-full flex items-center justify-center animate-spin-slow border border-neon-purple/30">
+                            <i data-lucide="zap" class="w-8 h-8 text-neon-purple"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center space-y-2 opacity-50">
+            <span class="text-xs text-gray-400 tracking-widest uppercase">Scroll</span>
+            <div class="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center p-2">
+                <div class="w-1 h-2 bg-white rounded-full animate-bounce"></div>
+            </div>
+        </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-white">
+    <section id="features" class="py-32 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
-                <h2 class="font-display text-4xl font-bold text-gray-900 mb-4">Why Choose NexusMark?</h2>
-                <p class="text-lg text-gray-600">We combine quality craftsmanship with seamless customization to deliver products that make your brand stand out.</p>
+            <div class="text-center max-w-3xl mx-auto mb-20 scroll-reveal">
+                <div class="inline-block glass-panel px-4 py-2 rounded-full mb-6 border border-neon-purple/30">
+                    <span class="text-neon-purple font-semibold text-sm tracking-wider uppercase">Why Choose Us</span>
+                </div>
+                <h2 class="font-display text-5xl font-bold text-white mb-6">
+                    Premium <span class="gradient-text">Features</span>
+                </h2>
+                <p class="text-lg text-gray-400 glass-panel p-6 rounded-2xl inline-block">
+                    We combine cutting-edge customization with premium materials to create products that truly represent your brand.
+                </p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="group p-8 rounded-2xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 scroll-reveal">
-                    <div class="w-14 h-14 bg-brand-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="palette" class="w-7 h-7 text-brand-600"></i>
+                <!-- Feature 1 -->
+                <div class="glass-card rounded-3xl p-8 tilt-card group scroll-reveal">
+                    <div class="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 rounded-2xl glass-panel flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-neon-blue/30">
+                            <i data-lucide="palette" class="w-8 h-8 text-neon-blue"></i>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold text-white mb-3">Full Customization</h3>
+                        <p class="text-gray-400 leading-relaxed mb-4">Complete control over colors, logos, and designs. We bring your vision to life with precision.</p>
+                        <div class="flex items-center text-neon-blue text-sm font-semibold group-hover:translate-x-2 transition-transform">
+                            <span>Learn more</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">Full Customization</h3>
-                    <p class="text-gray-600 leading-relaxed">From colors to logos, customize every aspect of your products to match your brand identity perfectly.</p>
                 </div>
 
-                <div class="group p-8 rounded-2xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 scroll-reveal" style="transition-delay: 100ms;">
-                    <div class="w-14 h-14 bg-accent-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="zap" class="w-7 h-7 text-accent-600"></i>
+                <!-- Feature 2 -->
+                <div class="glass-card rounded-3xl p-8 tilt-card group scroll-reveal" style="transition-delay: 100ms;">
+                    <div class="absolute inset-0 bg-gradient-to-br from-neon-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 rounded-2xl glass-panel flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-neon-purple/30">
+                            <i data-lucide="zap" class="w-8 h-8 text-neon-purple"></i>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold text-white mb-3">Lightning Fast</h3>
+                        <p class="text-gray-400 leading-relaxed mb-4">Quick turnaround times without compromising quality. Express delivery available across India.</p>
+                        <div class="flex items-center text-neon-purple text-sm font-semibold group-hover:translate-x-2 transition-transform">
+                            <span>Learn more</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">Fast Delivery</h3>
-                    <p class="text-gray-600 leading-relaxed">Quick turnaround times without compromising on quality. Get your orders delivered across India.</p>
                 </div>
 
-                <div class="group p-8 rounded-2xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 scroll-reveal" style="transition-delay: 200ms;">
-                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="shield-check" class="w-7 h-7 text-green-600"></i>
+                <!-- Feature 3 -->
+                <div class="glass-card rounded-3xl p-8 tilt-card group scroll-reveal" style="transition-delay: 200ms;">
+                    <div class="absolute inset-0 bg-gradient-to-br from-neon-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 rounded-2xl glass-panel flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-neon-green/30">
+                            <i data-lucide="shield-check" class="w-8 h-8 text-neon-green"></i>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold text-white mb-3">Premium Quality</h3>
+                        <p class="text-gray-400 leading-relaxed mb-4">Durable materials and high-definition printing ensure your products look stunning and last long.</p>
+                        <div class="flex items-center text-neon-green text-sm font-semibold group-hover:translate-x-2 transition-transform">
+                            <span>Learn more</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">Premium Quality</h3>
-                    <p class="text-gray-600 leading-relaxed">Durable materials and high-quality printing ensure your products look great and last long.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Products Section -->
-    <section id="products" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
-                <span class="text-brand-600 font-semibold tracking-wider uppercase text-sm">Our Collection</span>
-                <h2 class="font-display text-4xl font-bold text-gray-900 mt-2 mb-4">Featured Products</h2>
-                <p class="text-lg text-gray-600">Discover our range of customizable promotional items designed to elevate your brand presence.</p>
+    <section id="products" class="py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-neon-blue/5 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20 scroll-reveal">
+                <div class="inline-block glass-panel px-4 py-2 rounded-full mb-6 border border-neon-pink/30">
+                    <span class="text-neon-pink font-semibold text-sm tracking-wider uppercase">Our Collection</span>
+                </div>
+                <h2 class="font-display text-5xl font-bold text-white mb-6">
+                    Featured <span class="gradient-text">Products</span>
+                </h2>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Product 1 -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift scroll-reveal">
-                    <div class="aspect-[4/3] bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden group">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i data-lucide="coffee" class="w-20 h-20 text-white/20 group-hover:scale-110 transition-transform duration-500"></i>
+                <div class="group scroll-reveal">
+                    <div class="glass-card rounded-3xl overflow-hidden h-full flex flex-col">
+                        <div class="aspect-[4/3] relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-gray-900 to-black"></div>
+                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,243,255,0.1),transparent_70%)]"></div>
+                            
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="coffee" class="w-24 h-24 text-white/10 group-hover:text-neon-blue/30 group-hover:scale-110 transition-all duration-500"></i>
+                            </div>
+                            
+                            <div class="absolute top-4 right-4 glass-panel px-3 py-1 rounded-full border border-neon-blue/30">
+                                <span class="text-xs font-bold text-neon-blue">HOT</span>
+                            </div>
+
+                            <!-- Hover Overlay -->
+                            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="https://wa.me/917981335587?text=Hi!%20I'm%20interested%20in%20Magic%20Mugs." target="_blank" 
+                                   class="whatsapp-glass px-6 py-3 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center space-x-2">
+                                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                    <span>Enquire Now</span>
+                                </a>
+                            </div>
                         </div>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-gray-900">Hot</div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-display text-xl font-bold text-gray-900 mb-2">Magic Mugs</h3>
-                        <p class="text-gray-600 text-sm mb-4">Heat-sensitive color changing mugs perfect for gifts and promotions.</p>
-                        <div class="flex items-center justify-between">
-                            <span class="text-brand-600 font-bold text-lg">Custom Quote</span>
-                            <a href="https://wa.me/917981335587?text=Hi!%20I'm%20interested%20in%20Magic%20Mugs." target="_blank" class="text-sm font-semibold text-gray-900 hover:text-brand-600 flex items-center space-x-1">
-                                <span>Enquire</span>
-                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </a>
+                        
+                        <div class="p-6 flex-1 flex flex-col">
+                            <h3 class="font-display text-2xl font-bold text-white mb-2">Magic Mugs</h3>
+                            <p class="text-gray-400 text-sm mb-4 flex-1">Heat-sensitive color changing mugs that reveal your design when hot liquid is added.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                <span class="text-neon-blue font-bold text-lg">Custom Quote</span>
+                                <div class="flex items-center space-x-1 text-gray-500 text-sm">
+                                    <i data-lucide="star" class="w-4 h-4 text-neon-amber fill-current"></i>
+                                    <span>4.9</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Product 2 -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift scroll-reveal" style="transition-delay: 100ms;">
-                    <div class="aspect-[4/3] bg-gradient-to-br from-brand-600 to-brand-800 relative overflow-hidden group">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i data-lucide="shirt" class="w-20 h-20 text-white/20 group-hover:scale-110 transition-transform duration-500"></i>
+                <div class="group scroll-reveal" style="transition-delay: 100ms;">
+                    <div class="glass-card rounded-3xl overflow-hidden h-full flex flex-col">
+                        <div class="aspect-[4/3] relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-gray-900 to-black"></div>
+                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(188,19,254,0.1),transparent_70%)]"></div>
+                            
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="shirt" class="w-24 h-24 text-white/10 group-hover:text-neon-purple/30 group-hover:scale-110 transition-all duration-500"></i>
+                            </div>
+                            
+                            <div class="absolute top-4 right-4 glass-panel px-3 py-1 rounded-full border border-neon-purple/30">
+                                <span class="text-xs font-bold text-neon-purple">POPULAR</span>
+                            </div>
+
+                            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="https://wa.me/917981335587?text=Hi!%20I'm%20interested%20in%20Custom%20T-Shirts." target="_blank" 
+                                   class="whatsapp-glass px-6 py-3 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center space-x-2">
+                                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                    <span>Enquire Now</span>
+                                </a>
+                            </div>
                         </div>
-                        <div class="absolute top-4 right-4 bg-accent-500 text-white px-3 py-1 rounded-full text-xs font-bold">Popular</div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-display text-xl font-bold text-gray-900 mb-2">Custom T-Shirts</h3>
-                        <p class="text-gray-600 text-sm mb-4">Premium cotton tees with high-quality screen printing for your brand.</p>
-                        <div class="flex items-center justify-between">
-                            <span class="text-brand-600 font-bold text-lg">Custom Quote</span>
-                            <a href="https://wa.me/917981335587?text=Hi!%20I'm%20interested%20in%20Custom%20T-Shirts." target="_blank" class="text-sm font-semibold text-gray-900 hover:text-brand-600 flex items-center space-x-1">
-                                <span>Enquire</span>
-                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </a>
+                        
+                        <div class="p-6 flex-1 flex flex-col">
+                            <h3 class="font-display text-2xl font-bold text-white mb-2">Custom T-Shirts</h3>
+                            <p class="text-gray-400 text-sm mb-4 flex-1">Premium cotton tees with high-definition printing for lasting comfort and style.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                <span class="text-neon-purple font-bold text-lg">Custom Quote</span>
+                                <div class="flex items-center space-x-1 text-gray-500 text-sm">
+                                    <i data-lucide="star" class="w-4 h-4 text-neon-amber fill-current"></i>
+                                    <span>4.8</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Product 3 -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift scroll-reveal" style="transition-delay: 200ms;">
-                    <div class="aspect-[4/3] bg-gradient-to-br from-accent-500 to-accent-700 relative overflow-hidden group">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i data-lucide="badge" class="w-20 h-20 text-white/20 group-hover:scale-110 transition-transform duration-500"></i>
+                <div class="group scroll-reveal" style="transition-delay: 200ms;">
+                    <div class="glass-card rounded-3xl overflow-hidden h-full flex flex-col">
+                        <div class="aspect-[4/3] relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-gray-900 to-black"></div>
+                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,0,110,0.1),transparent_70%)]"></div>
+                            
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="badge" class="w-24 h-24 text-white/10 group-hover:text-neon-pink/30 group-hover:scale-110 transition-all duration-500"></i>
+                            </div>
+
+                            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="https://wa.me/917981335587?text=Hi!%20I'm%20interested%20in%20ID%20Lanyards." target="_blank" 
+                                   class="whatsapp-glass px-6 py-3 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center space-x-2">
+                                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                    <span>Enquire Now</span>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-display text-xl font-bold text-gray-900 mb-2">ID Lanyards</h3>
-                        <p class="text-gray-600 text-sm mb-4">Professional lanyard printing with multiple material and hook options.</p>
-                        <div class="flex items-center justify-between">
-                            <span class="text-brand-600 font-bold text-lg">Custom Quote</span>
-                            <a href="https://wa.me/917981335587?text=Hi!%20I'm%20interested%20in%20ID%20Lanyards." target="_blank" class="text-sm font-semibold text-gray-900 hover:text-brand-600 flex items-center space-x-1">
-                                <span>Enquire</span>
-                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </a>
+                        
+                        <div class="p-6 flex-1 flex flex-col">
+                            <h3 class="font-display text-2xl font-bold text-white mb-2">ID Lanyards</h3>
+                            <p class="text-gray-400 text-sm mb-4 flex-1">Professional lanyard printing with multiple material options and custom hooks.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                <span class="text-neon-pink font-bold text-lg">Custom Quote</span>
+                                <div class="flex items-center space-x-1 text-gray-500 text-sm">
+                                    <i data-lucide="star" class="w-4 h-4 text-neon-amber fill-current"></i>
+                                    <span>5.0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="text-center mt-12">
-                <a href="https://wa.me/917981335587?text=Hi!%20Please%20share%20your%20complete%20product%20catalog." target="_blank" class="inline-flex items-center space-x-2 text-brand-600 font-semibold hover:text-brand-700 transition-colors">
-                    <span>View All Products</span>
-                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                </a>
+    <!-- Stats Section -->
+    <section class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 grid grid-cols-2 md:grid-cols-4 gap-8 scroll-reveal">
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold gradient-text mb-2 counter" data-target="500">0</div>
+                    <div class="text-gray-400 text-sm uppercase tracking-wider">Happy Clients</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold gradient-text mb-2 counter" data-target="50">0</div>
+                    <div class="text-gray-400 text-sm uppercase tracking-wider">Product Types</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold gradient-text mb-2 counter" data-target="24">0</div>
+                    <div class="text-gray-400 text-sm uppercase tracking-wider">Hour Support</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold gradient-text mb-2 counter" data-target="99">0</div>
+                    <div class="text-gray-400 text-sm uppercase tracking-wider">% Satisfaction</div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="py-20 bg-gray-900 relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23444444%22%20fill-opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    <section class="py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-neon-blue/10 via-neon-purple/10 to-neon-pink/10"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
+        
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 scroll-reveal">
-            <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">Ready to Boost Your Brand?</h2>
-            <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Get in touch today for a free quote. We offer bulk discounts for corporate orders and fast delivery across India.</p>
+            <h2 class="font-display text-5xl md:text-6xl font-bold text-white mb-6">
+                Ready to <span class="gradient-text">Elevate</span> Your Brand?
+            </h2>
+            <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto glass-panel p-6 rounded-2xl inline-block">
+                Get in touch today for a free quote. Bulk discounts available for corporate orders with fast delivery across India.
+            </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="https://wa.me/917981335587?text=Hi%20NexusMark!%20I%20need%20a%20quote%20for%20customized%20products." 
+                <a href="https://wa.me/917981335587?text=Hi%20NexusMark!%20I%20need%20a%20quote." 
                    target="_blank"
-                   class="inline-flex items-center justify-center space-x-3 bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105 shadow-lg">
-                    <i data-lucide="message-circle" class="w-6 h-6"></i>
-                    <span>Chat on WhatsApp</span>
+                   class="whatsapp-glass px-10 py-5 rounded-2xl font-bold text-xl transition-all hover:scale-105 flex items-center justify-center space-x-3 group neon-border">
+                    <i data-lucide="message-circle" class="w-7 h-7 group-hover:animate-bounce"></i>
+                    <span>Get Quote on WhatsApp</span>
                 </a>
-                <a href="tel:7981335587" class="inline-flex items-center justify-center space-x-3 bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-4 rounded-full font-semibold text-lg transition-all backdrop-blur">
-                    <i data-lucide="phone" class="w-6 h-6"></i>
+                <a href="tel:7981335587" class="phone-glass px-10 py-5 rounded-2xl font-bold text-xl transition-all hover:scale-105 flex items-center justify-center space-x-3 text-neon-blue neon-border">
+                    <i data-lucide="phone" class="w-7 h-7"></i>
                     <span>Call: 7981335587</span>
                 </a>
             </div>
@@ -356,171 +759,256 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-white">
+    <section id="contact" class="py-32 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <div class="scroll-reveal">
-                    <h2 class="font-display text-4xl font-bold text-gray-900 mb-6">Get in Touch</h2>
-                    <p class="text-lg text-gray-600 mb-8">Have questions about our products or need a custom quote? Reach out to us directly via WhatsApp or phone. We're here to help!</p>
+                    <div class="inline-block glass-panel px-4 py-2 rounded-full mb-6 border border-neon-green/30">
+                        <span class="text-neon-green font-semibold text-sm tracking-wider uppercase">Contact Us</span>
+                    </div>
+                    <h2 class="font-display text-5xl font-bold text-white mb-6">Let's Create Something <span class="gradient-text">Amazing</span></h2>
+                    <p class="text-lg text-gray-400 mb-12">Have questions or need a custom quote? Reach out directly via WhatsApp or phone. We're available 24/7 to help you.</p>
                     
                     <div class="space-y-6">
-                        <a href="https://wa.me/917981335587" target="_blank" class="flex items-center p-4 rounded-xl bg-green-50 hover:bg-green-100 transition-colors group">
-                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white mr-4 group-hover:scale-110 transition-transform">
-                                <i data-lucide="message-circle" class="w-6 h-6"></i>
+                        <a href="https://wa.me/917981335587" target="_blank" class="flex items-center p-6 rounded-2xl glass-card group hover:border-green-500/50 transition-all">
+                            <div class="w-14 h-14 rounded-xl bg-green-500/20 flex items-center justify-center text-green-400 mr-6 group-hover:scale-110 transition-transform neon-glow">
+                                <i data-lucide="message-circle" class="w-7 h-7"></i>
                             </div>
-                            <div>
-                                <p class="text-sm text-gray-500 font-medium">WhatsApp</p>
-                                <p class="text-lg font-bold text-gray-900">+91 7981335587</p>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-500 mb-1">WhatsApp</p>
+                                <p class="text-2xl font-bold text-white group-hover:text-green-400 transition-colors">+91 7981335587</p>
                             </div>
-                            <i data-lucide="external-link" class="w-5 h-5 text-green-600 ml-auto opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            <i data-lucide="external-link" class="w-6 h-6 text-gray-600 group-hover:text-green-400 transition-colors"></i>
                         </a>
 
-                        <a href="tel:7981335587" class="flex items-center p-4 rounded-xl bg-brand-50 hover:bg-brand-100 transition-colors group">
-                            <div class="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center text-white mr-4 group-hover:scale-110 transition-transform">
-                                <i data-lucide="phone" class="w-6 h-6"></i>
+                        <a href="tel:7981335587" class="flex items-center p-6 rounded-2xl glass-card group hover:border-neon-blue/50 transition-all">
+                            <div class="w-14 h-14 rounded-xl bg-neon-blue/20 flex items-center justify-center text-neon-blue mr-6 group-hover:scale-110 transition-transform" style="box-shadow: 0 0 20px rgba(0,243,255,0.2);">
+                                <i data-lucide="phone" class="w-7 h-7"></i>
                             </div>
-                            <div>
-                                <p class="text-sm text-gray-500 font-medium">Phone</p>
-                                <p class="text-lg font-bold text-gray-900">7981335587</p>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-500 mb-1">Phone</p>
+                                <p class="text-2xl font-bold text-white group-hover:text-neon-blue transition-colors">7981335587</p>
                             </div>
-                            <i data-lucide="phone-call" class="w-5 h-5 text-brand-600 ml-auto opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            <i data-lucide="phone-call" class="w-6 h-6 text-gray-600 group-hover:text-neon-blue transition-colors"></i>
                         </a>
 
-                        <div class="flex items-center p-4 rounded-xl bg-gray-50">
-                            <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white mr-4">
-                                <i data-lucide="map-pin" class="w-6 h-6"></i>
+                        <div class="flex items-center p-6 rounded-2xl glass-card">
+                            <div class="w-14 h-14 rounded-xl bg-neon-purple/20 flex items-center justify-center text-neon-purple mr-6" style="box-shadow: 0 0 20px rgba(188,19,254,0.2);">
+                                <i data-lucide="map-pin" class="w-7 h-7"></i>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-500 font-medium">Location</p>
-                                <p class="text-lg font-bold text-gray-900">India</p>
+                                <p class="text-sm text-gray-500 mb-1">Location</p>
+                                <p class="text-2xl font-bold text-white">India</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 rounded-3xl p-8 lg:p-12 scroll-reveal">
-                    <h3 class="font-display text-2xl font-bold text-gray-900 mb-6">Quick Enquiry</h3>
-                    <form onsubmit="event.preventDefault(); window.open('https://wa.me/917981335587?text=Name:%20' + encodeURIComponent(document.getElementById('name').value) + '%0AEmail:%20' + encodeURIComponent(document.getElementById('email').value) + '%0AMessage:%20' + encodeURIComponent(document.getElementById('message').value), '_blank');" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                            <input type="text" id="name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all" placeholder="Your name">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                            <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all" placeholder="your@email.com">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                            <textarea id="message" rows="4" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all resize-none" placeholder="Tell us what you need..."></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-4 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center space-x-2">
-                            <i data-lucide="send" class="w-5 h-5"></i>
-                            <span>Send via WhatsApp</span>
-                        </button>
-                    </form>
+                <div class="glass-panel rounded-3xl p-8 lg:p-12 scroll-reveal relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-neon-blue/5 to-neon-purple/5"></div>
+                    <div class="relative z-10">
+                        <h3 class="font-display text-3xl font-bold text-white mb-2">Quick Enquiry</h3>
+                        <p class="text-gray-400 mb-8">Fill in your details and we'll get back to you immediately.</p>
+                        
+                        <form onsubmit="event.preventDefault(); window.open('https://wa.me/917981335587?text=' + encodeURIComponent('Name: ' + document.getElementById('name').value + '\nEmail: ' + document.getElementById('email').value + '\nMessage: ' + document.getElementById('message').value), '_blank');" class="space-y-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-300 ml-1">Name</label>
+                                <input type="text" id="name" required class="w-full px-5 py-4 rounded-xl bg-black/30 border border-white/10 text-white placeholder-gray-500 focus:border-neon-blue focus:ring-2 focus:ring-neon-blue/20 outline-none transition-all" placeholder="John Doe">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-300 ml-1">Email</label>
+                                <input type="email" id="email" required class="w-full px-5 py-4 rounded-xl bg-black/30 border border-white/10 text-white placeholder-gray-500 focus:border-neon-blue focus:ring-2 focus:ring-neon-blue/20 outline-none transition-all" placeholder="john@example.com">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-300 ml-1">Message</label>
+                                <textarea id="message" rows="4" required class="w-full px-5 py-4 rounded-xl bg-black/30 border border-white/10 text-white placeholder-gray-500 focus:border-neon-blue focus:ring-2 focus:ring-neon-blue/20 outline-none transition-all resize-none" placeholder="Tell us about your project..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full whatsapp-glass py-4 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] flex items-center justify-center space-x-3 group">
+                                <span>Send via WhatsApp</span>
+                                <i data-lucide="send" class="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
+    <footer class="relative pt-20 pb-8 border-t border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
                 <div class="col-span-2">
-                    <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-accent-500 rounded-lg flex items-center justify-center text-white font-bold">N</div>
-                        <span class="font-display font-bold text-xl">NexusMark</span>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center text-white font-bold text-xl neon-glow">
+                            N
+                        </div>
+                        <span class="font-display font-bold text-2xl text-white">Nexus<span class="gradient-text">Mark</span></span>
                     </div>
-                    <p class="text-gray-400 max-w-sm">Your trusted partner for premium customized promotional products and corporate gifts across India.</p>
+                    <p class="text-gray-400 max-w-sm mb-6">Your premium destination for customized promotional products. Quality meets innovation.</p>
+                    <div class="flex space-x-4">
+                        <a href="https://wa.me/917981335587" target="_blank" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-green-400 hover:bg-green-500/20 transition-all hover:scale-110 border border-green-500/30">
+                            <i data-lucide="message-circle" class="w-6 h-6"></i>
+                        </a>
+                        <a href="tel:7981335587" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-neon-blue hover:bg-neon-blue/20 transition-all hover:scale-110 border border-neon-blue/30">
+                            <i data-lucide="phone" class="w-6 h-6"></i>
+                        </a>
+                    </div>
                 </div>
+                
                 <div>
-                    <h4 class="font-bold mb-4">Quick Links</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#products" class="hover:text-white transition-colors">Products</a></li>
-                        <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
-                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                    <h4 class="font-bold text-white mb-6 text-lg">Quick Links</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#products" class="text-gray-400 hover:text-neon-blue transition-colors flex items-center group"><span class="w-0 group-hover:w-2 h-0.5 bg-neon-blue mr-0 group-hover:mr-2 transition-all"></span>Products</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-neon-blue transition-colors flex items-center group"><span class="w-0 group-hover:w-2 h-0.5 bg-neon-blue mr-0 group-hover:mr-2 transition-all"></span>Features</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-neon-blue transition-colors flex items-center group"><span class="w-0 group-hover:w-2 h-0.5 bg-neon-blue mr-0 group-hover:mr-2 transition-all"></span>Contact</a></li>
                     </ul>
                 </div>
+
                 <div>
-                    <h4 class="font-bold mb-4">Contact</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li class="flex items-center space-x-2">
-                            <i data-lucide="phone" class="w-4 h-4"></i>
+                    <h4 class="font-bold text-white mb-6 text-lg">Contact</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-center space-x-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-neon-blue"></i>
                             <span>7981335587</span>
                         </li>
-                        <li class="flex items-center space-x-2">
-                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                        <li class="flex items-center space-x-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-neon-purple"></i>
                             <span>India</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i data-lucide="clock" class="w-5 h-5 text-neon-green"></i>
+                            <span>24/7 Available</span>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-gray-500 text-sm">© 2024 NexusMark. All rights reserved.</p>
-                <div class="flex space-x-4 mt-4 md:mt-0">
-                    <a href="https://wa.me/917981335587" target="_blank" class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-                        <i data-lucide="message-circle" class="w-5 h-5"></i>
-                    </a>
-                    <a href="tel:7981335587" class="w-10 h-10 bg-brand-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-                        <i data-lucide="phone" class="w-5 h-5"></i>
-                    </a>
-                </div>
+                <p class="text-gray-600 text-sm mt-4 md:mt-0">Crafted with precision</p>
             </div>
         </div>
     </footer>
 
     <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/917981335587?text=Hi%20NexusMark!" target="_blank" 
-       class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl z-50 transition-all hover:scale-110 whatsapp-pulse group">
-        <i data-lucide="message-circle" class="w-7 h-7"></i>
-        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-sm px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-            Chat with us
-        </span>
+       class="fixed bottom-8 right-8 z-50 group">
+        <div class="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20"></div>
+        <div class="relative w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white shadow-2xl transition-all hover:scale-110 border-2 border-white/20">
+            <i data-lucide="message-circle" class="w-8 h-8"></i>
+        </div>
+        <div class="absolute right-full mr-4 top-1/2 -translate-y-1/2 glass-panel px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all whitespace-nowrap pointer-events-none border border-white/10">
+            <span class="text-sm font-semibold text-white">Chat with us</span>
+        </div>
     </a>
 
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // Scroll reveal animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Register GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+        // 3D Tilt Effect for Cards
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
             });
-        }, observerOptions);
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
+        });
 
-        document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
-
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('shadow-md');
-            } else {
-                navbar.classList.remove('shadow-md');
+        // Hero Parallax
+        gsap.to('.hero-content', {
+            yPercent: -20,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
             }
         });
 
-        // Smooth scroll for anchor links
+        // Scroll Reveal Animations
+        const revealElements = document.querySelectorAll('.scroll-reveal');
+        revealElements.forEach((element, index) => {
+            gsap.fromTo(element, 
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    delay: index * 0.1
+                }
+            );
+        });
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            gsap.to(counter, {
+                innerHTML: target,
+                duration: 2,
+                ease: "power2.out",
+                snap: { innerHTML: 1 },
+                scrollTrigger: {
+                    trigger: counter,
+                    start: "top 80%"
+                }
+            });
+        });
+
+        // Navbar Glass Effect on Scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scale-[0.98]');
+            } else {
+                navbar.classList.remove('scale-[0.98]');
+            }
+        });
+
+        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        // Mouse Follow Effect for Hero
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+            
+            const heroCard = document.getElementById('heroCard');
+            if (heroCard) {
+                heroCard.style.transform = `perspective(1000px) rotateY(${mouseX * 10}deg) rotateX(${-mouseY * 10}deg)`;
+            }
         });
     </script>
 </body>
