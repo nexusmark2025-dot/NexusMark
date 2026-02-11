@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusMark - Customized Promotional Products & Corporate Gifts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'slide-in-right': 'slideInRight 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideInRight: {
+                            '0%': { opacity: '0', transform: 'translateX(50px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .whatsapp-pulse {
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-effect transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-accent-500 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                        N
+                    </div>
+                    <span class="font-display font-bold text-2xl text-gray-900">Nexus<span class="text-brand-600">Mark</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#products" class="text-gray-700 hover:text-brand-600 font-medium transition-colors">Products</a>
+                    <a href="#features" class="text-gray-700 hover:text-brand-600 font-medium transition-colors">Features</a>
+                    <a href="#contact" class="text-gray-700 hover:text-brand-600 font-medium transition-colors">Contact</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <a href="tel:7981335587" class="hidden sm:flex items-center space-x-2 text-gray-700 hover:text-brand-600 transition-colors">
+                        <i data-lucide="phone" class="w-4 h-4"></i>
+                        <span class="font-semibold">7981335587</span>
+                    </a>
+                    <a href="https://wa.me/917981335587?text=Hi%20NexusMark!%20I'm%20interested%20in%20your%20customized%20products." 
+                       target="_blank" 
+                       class="bg-green-500 hover:bg-green-600 text-white px-6 py-2.5 rounded-full font-medium transition-all hover:scale-105 flex items-center space-x-2 shadow-lg whatsapp-pulse">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-brand-50 via-white to-accent-50 opacity-70"></div>
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-brand-100/30 to-transparent"></div>
+        
+        <!-- Floating Elements -->
+        <div class="absolute top-40 left-10 w-20 h-20 bg-brand-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float"></div>
+        <div class="absolute bottom-20 right-10 w-32 h-32 bg-accent-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 2s;"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8 animate-fade-in-up">
+                    <div class="inline-flex items-center space-x-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full border border-brand-200 shadow-sm">
+                        <span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-sm font-medium text-gray-700">Premium Quality Guaranteed</span>
+                    </div>
+                    
+                    <h1 class="font-display text-5xl lg:text-7xl font-bold leading-tight text-gray-900">
+                        Customized <br>
+                        <span class="gradient-text">Promotional</span><br>
+                        Products
+                    </h1>
+                    
+                    <p class="text-xl text-gray-600 max-w-lg leading-relaxed">
+                        Elevate your brand with premium customized merchandise. From magic mugs to corporate lanyards, we deliver quality that speaks volumes.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="https://wa.me/917981335587?text=Hi%20NexusMark!%20I%20want%20to%20place%20an%20order%20for%20customized%20products." 
+                           target="_blank"
+                           class="inline-flex items-center justify-center space-x-3 bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105 shadow-xl hover:shadow-2xl group">
+                            <i data-lucide="message-circle" class="w-6 h-6 group-hover:rotate-12 transition-transform"></i>
+                            <span>Order on WhatsApp</span>
+                        </a>
+                        <a href="tel:7981335587" class="inline-flex items-center justify-center space-x-3 bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-200 px-8 py-4 rounded-full font-semibold text-lg transition-all hover:border-brand-300">
+                            <i data-lucide="phone" class="w-6 h-6 text-brand-600"></i>
+                            <span>Call Now</span>
+                        </a>
+                    </div>
+
+                    <div class="flex items-center space-x-6 pt-4">
+                        <div class="flex -space-x-2">
+                            <div class="w-10 h-10 rounded-full bg-brand-200 border-2 border-white flex items-center justify-center text-xs font-bold text-brand-800">5★</div>
+                            <div class="w-10 h-10 rounded-full bg-accent-200 border-2 border-white flex items-center justify-center text-xs font-bold text-accent-800">4.9</div>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            <span class="font-semibold text-gray-900">500+ Happy Clients</span> across India
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative lg:h-[600px] flex items-center justify-center">
+                    <div class="relative w-full max-w-md animate-slide-in-right">
+                        <div class="absolute inset-0 bg-gradient-to-r from-brand-500 to-accent-500 rounded-3xl transform rotate-3 opacity-20 blur-2xl"></div>
+                        <div class="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+                            <div class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden group">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="text-center p-8">
+                                        <div class="w-32 h-32 mx-auto bg-gradient-to-br from-brand-500 to-accent-500 rounded-2xl shadow-lg flex items-center justify-center mb-4 transform group-hover:scale-110 transition-transform duration-500">
+                                            <i data-lucide="package" class="w-16 h-16 text-white"></i>
+                                        </div>
+                                        <p class="text-gray-500 font-medium">Premium Custom Products</p>
+                                    </div>
+                                </div>
+                                <!-- Decorative circles -->
+                                <div class="absolute top-4 right-4 w-20 h-20 bg-brand-200 rounded-full mix-blend-multiply opacity-50"></div>
+                                <div class="absolute bottom-4 left-4 w-16 h-16 bg-accent-200 rounded-full mix-blend-multiply opacity-50"></div>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="font-display font-bold text-xl text-gray-900">Custom Magic Mug</h3>
+                                        <p class="text-gray-500 text-sm">Color changing • Premium ceramic</p>
+                                    </div>
+                                    <span class="bg-brand-100 text-brand-800 text-xs font-bold px-3 py-1 rounded-full">Bestseller</span>
+                                </div>
+                                <div class="flex items-center justify-between pt-2">
+                                    <div class="flex items-center space-x-1">
+                                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-current"></i>
+                                        <span class="text-sm font-semibold text-gray-700">4.9</span>
+                                    </div>
+                                    <button class="text-brand-600 font-semibold text-sm hover:underline">Customize Now →</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
+                <h2 class="font-display text-4xl font-bold text-gray-900 mb-4">Why Choose NexusMark?</h2>
+                <p class="text-lg text-gray-600">We combine quality craftsmanship with seamless customization to deliver products that make your brand stand out.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group p-8 rounded-2xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 scroll-reveal">
+                    <div class="w-14 h-14 bg-brand-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="palette" class="w-7 h-7 text-brand-600"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">Full Customization</h3>
+                    <p class="text-gray-600 leading-relaxed">From colors to logos, customize every aspect of your products to match your brand identity perfectly.</p>
+                </div>
+
+                <div class="group p-8 rounded-2xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 scroll-reveal" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 bg-accent-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="zap" class="w-7 h-7 text-accent-600"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">Fast Delivery</h3>
+                    <p class="text-gray-600 leading-relaxed">Quick turnaround times without compromising on quality. Get your orders delivered across India.</p>
+                </div>
+
+                <div class="group p-8 rounded-2xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 scroll-reveal" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="shield-check" class="w-7 h-7 text-green-600"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-gray-900 mb-3">Premium Quality</h3>
+                    <p class="text-gray-600 leading-relaxed">Durable materials and high-quality printing ensure your products look great and last long.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
+                <span class="text-brand-600 font-semibold tracking-wider uppercase text-sm">Our Collection</span>
+                <h2 class="font-display text-4xl font-bold text-gray-900 mt-2 mb-4">Featured Products</h2>
+                <p class="text-lg text-gray-600">Discover our range of customizable promotional items designed to elevate your brand presence.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Product 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift scroll-reveal">
+                    <div class="aspect-[4/3] bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden group">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="coffee" class="w-20 h-20 text-white/20 group-hover:scale-110 transition-transform duration-500"></i>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-gray-900">Hot</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold text-gray-900 mb-2">Magic Mugs</h3>
+                        <p class="text-gray-600 text-sm mb-4">Heat-sensitive color changing mugs perfect for gifts and promotions.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-600 font-bold text-lg">Custom Quote</span>
+                            <a href="https://wa.me/917981335587?text=Hi!%20I'm%20interested%20in%20Magic%20Mugs." target="_blank" class="text-sm font-semibold text-gray-900 hover:text-brand-600 flex items-center space-x-1">
+                                <span>Enquire</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift scroll-reveal" style="transition-delay: 100ms;">
+                    <div class="aspect-[4/3] bg-gradient-to-br from-brand-600 to-brand-800 relative overflow-hidden group">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="shirt" class="w-20 h-20 text-white/20 group-hover:scale-110 transition-transform duration-500"></i>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-accent-500 text-white px-3 py-1 rounded-full text-xs font-bold">Popular</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold text-gray-900 mb-2">Custom T-Shirts</h3>
+                        <p class="text-gray-600 text-sm mb-4">Premium cotton tees with high-quality screen printing for your brand.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-600 font-bold text-lg">Custom Quote</span>
+                            <a href="https://wa.me/917981335587?text=Hi!%20I'm%20interested%20in%20Custom%20T-Shirts." target="_blank" class="text-sm font-semibold text-gray-900 hover:text-brand-600 flex items-center space-x-1">
+                                <span>Enquire</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift scroll-reveal" style="transition-delay: 200ms;">
+                    <div class="aspect-[4/3] bg-gradient-to-br from-accent-500 to-accent-700 relative overflow-hidden group">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="badge" class="w-20 h-20 text-white/20 group-hover:scale-110 transition-transform duration-500"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold text-gray-900 mb-2">ID Lanyards</h3>
+                        <p class="text-gray-600 text-sm mb-4">Professional lanyard printing with multiple material and hook options.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-600 font-bold text-lg">Custom Quote</span>
+                            <a href="https://wa.me/917981335587?text=Hi!%20I'm%20interested%20in%20ID%20Lanyards." target="_blank" class="text-sm font-semibold text-gray-900 hover:text-brand-600 flex items-center space-x-1">
+                                <span>Enquire</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="https://wa.me/917981335587?text=Hi!%20Please%20share%20your%20complete%20product%20catalog." target="_blank" class="inline-flex items-center space-x-2 text-brand-600 font-semibold hover:text-brand-700 transition-colors">
+                    <span>View All Products</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gray-900 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23444444%22%20fill-opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 scroll-reveal">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">Ready to Boost Your Brand?</h2>
+            <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Get in touch today for a free quote. We offer bulk discounts for corporate orders and fast delivery across India.</p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://wa.me/917981335587?text=Hi%20NexusMark!%20I%20need%20a%20quote%20for%20customized%20products." 
+                   target="_blank"
+                   class="inline-flex items-center justify-center space-x-3 bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105 shadow-lg">
+                    <i data-lucide="message-circle" class="w-6 h-6"></i>
+                    <span>Chat on WhatsApp</span>
+                </a>
+                <a href="tel:7981335587" class="inline-flex items-center justify-center space-x-3 bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-4 rounded-full font-semibold text-lg transition-all backdrop-blur">
+                    <i data-lucide="phone" class="w-6 h-6"></i>
+                    <span>Call: 7981335587</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="scroll-reveal">
+                    <h2 class="font-display text-4xl font-bold text-gray-900 mb-6">Get in Touch</h2>
+                    <p class="text-lg text-gray-600 mb-8">Have questions about our products or need a custom quote? Reach out to us directly via WhatsApp or phone. We're here to help!</p>
+                    
+                    <div class="space-y-6">
+                        <a href="https://wa.me/917981335587" target="_blank" class="flex items-center p-4 rounded-xl bg-green-50 hover:bg-green-100 transition-colors group">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white mr-4 group-hover:scale-110 transition-transform">
+                                <i data-lucide="message-circle" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">WhatsApp</p>
+                                <p class="text-lg font-bold text-gray-900">+91 7981335587</p>
+                            </div>
+                            <i data-lucide="external-link" class="w-5 h-5 text-green-600 ml-auto opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </a>
+
+                        <a href="tel:7981335587" class="flex items-center p-4 rounded-xl bg-brand-50 hover:bg-brand-100 transition-colors group">
+                            <div class="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center text-white mr-4 group-hover:scale-110 transition-transform">
+                                <i data-lucide="phone" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Phone</p>
+                                <p class="text-lg font-bold text-gray-900">7981335587</p>
+                            </div>
+                            <i data-lucide="phone-call" class="w-5 h-5 text-brand-600 ml-auto opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </a>
+
+                        <div class="flex items-center p-4 rounded-xl bg-gray-50">
+                            <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white mr-4">
+                                <i data-lucide="map-pin" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Location</p>
+                                <p class="text-lg font-bold text-gray-900">India</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-3xl p-8 lg:p-12 scroll-reveal">
+                    <h3 class="font-display text-2xl font-bold text-gray-900 mb-6">Quick Enquiry</h3>
+                    <form onsubmit="event.preventDefault(); window.open('https://wa.me/917981335587?text=Name:%20' + encodeURIComponent(document.getElementById('name').value) + '%0AEmail:%20' + encodeURIComponent(document.getElementById('email').value) + '%0AMessage:%20' + encodeURIComponent(document.getElementById('message').value), '_blank');" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            <input type="text" id="name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all" placeholder="Your name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all" placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <textarea id="message" rows="4" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all resize-none" placeholder="Tell us what you need..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-4 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center space-x-2">
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                            <span>Send via WhatsApp</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-accent-500 rounded-lg flex items-center justify-center text-white font-bold">N</div>
+                        <span class="font-display font-bold text-xl">NexusMark</span>
+                    </div>
+                    <p class="text-gray-400 max-w-sm">Your trusted partner for premium customized promotional products and corporate gifts across India.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#products" class="hover:text-white transition-colors">Products</a></li>
+                        <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="phone" class="w-4 h-4"></i>
+                            <span>7981335587</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                            <span>India</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm">© 2024 NexusMark. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="https://wa.me/917981335587" target="_blank" class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    </a>
+                    <a href="tel:7981335587" class="w-10 h-10 bg-brand-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                        <i data-lucide="phone" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/917981335587?text=Hi%20NexusMark!" target="_blank" 
+       class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl z-50 transition-all hover:scale-110 whatsapp-pulse group">
+        <i data-lucide="message-circle" class="w-7 h-7"></i>
+        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-sm px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+            Chat with us
+        </span>
+    </a>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
